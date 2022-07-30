@@ -9,7 +9,7 @@
 #define ORIENT_DOWN_UP 2
 #define ORIENT_LEFT_RIGHT 3
 
-class TFTDisplay: public Adafruit_ST7735, Component
+class TFTDisplay: public Adafruit_ST7735, public Component
 {
     public:
 
