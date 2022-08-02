@@ -2,6 +2,8 @@
 #include "decodeutf8.h"
 #include "gfxlatin1.h"
 
+using namespace ModFirmWare;
+
 TFTDisplay::TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc) : Adafruit_ST7735(cs, dc, rsc),
                                                                        options(INITR_BLACKTAB),
                                                                        orientation(ORIENT_UP_DOWN) {}
@@ -14,10 +16,17 @@ TFTDisplay::TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc, uint8_t opt
 
 bool TFTDisplay::setup()
 {
-    this->initR(options);
-    this->setRotation(orientation);
+    if (Component::setup())
+    {
+        this->initR(options);
+        this->setRotation(orientation);
 
-    return true;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void TFTDisplay::loop()
