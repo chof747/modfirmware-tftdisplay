@@ -14,9 +14,10 @@ TFTDisplay::TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc, uint8_t opt
                                                                                         options(options),
                                                                                         orientation(orientation) {}
 
-bool TFTDisplay::setup()
+bool TFTDisplay::setup(Application* app)
+//*****************************************************************************
 {
-    if (Component::setup())
+    if (Component::setup(app))
     {
         this->initR(options);
         this->setRotation(orientation);
@@ -30,16 +31,19 @@ bool TFTDisplay::setup()
 }
 
 void TFTDisplay::loop()
+//*****************************************************************************
 {
 
 }
 
 size_t TFTDisplay::printlnStr(const char str[])
+//*****************************************************************************
 {
     return this->println(utf8tocp(String(str)));
 }
 
 size_t TFTDisplay::printStr(const char str[])
+//*****************************************************************************
 {
     return this->print(utf8tocp(String(str)));
 }

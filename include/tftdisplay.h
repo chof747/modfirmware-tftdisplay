@@ -2,7 +2,7 @@
 #define TFTDISPLAY_H
 
 #include <Adafruit_ST7735.h> // Hardware-specific library #include <SPI.h>
-#include <component.h>
+#include <modfw_component.h>
 
 #define ORIENT_UP_DOWN 0
 #define ORIENT_RIGHT_LEFT 1
@@ -22,7 +22,7 @@ namespace ModFirmWare
         virtual size_t printlnStr(const char[]);
         virtual size_t printStr(const char[]);
 
-        virtual bool setup();
+        virtual bool setup(Application*);
         virtual void loop();
 
     private:
