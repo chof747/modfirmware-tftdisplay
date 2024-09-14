@@ -4,13 +4,13 @@
 
 using namespace ModFirmWare;
 
-TFTDisplay::TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc) : Adafruit_ST7735(cs, dc, rsc),
+TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc) : Adafruit_ST7735(cs, dc, rsc),
                                                                        options(INITR_BLACKTAB),
                                                                        orientation(ORIENT_UP_DOWN) {}
-TFTDisplay::TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc, uint8_t options) : Adafruit_ST7735(cs, dc, rsc),
+TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc, uint8_t options) : Adafruit_ST7735(cs, dc, rsc),
                                                                                         options(options),
                                                                                         orientation(ORIENT_RIGHT_LEFT) {}
-TFTDisplay::TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc, uint8_t options, uint8_t orientation) : Adafruit_ST7735(cs, dc, rsc),
+TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc, uint8_t options, uint8_t orientation) : Adafruit_ST7735(cs, dc, rsc),
                                                                                         options(options),
                                                                                         orientation(orientation) {}
 

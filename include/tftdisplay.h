@@ -15,9 +15,9 @@ namespace ModFirmWare
     class TFTDisplay : public Adafruit_ST7735, public Component
     {
     public:
-        TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc);
-        TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc, uint8_t options);
-        TFTDisplay(gpio_num_t cs, gpio_num_t dc, gpio_num_t rsc, uint8_t options, uint8_t orientation);
+        TFTDisplay(int8_t cs, int8_t dc, int8_t rsc);
+        TFTDisplay(int8_t cs, int8_t dc, int8_t rsc, uint8_t options);
+        TFTDisplay(int8_t cs, int8_t dc, int8_t rsc, uint8_t options, uint8_t orientation);
 
         virtual size_t printlnStr(const char[]);
         virtual size_t printStr(const char[]);
