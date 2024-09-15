@@ -3,6 +3,8 @@
 
 #include <Adafruit_ST7735.h> // Hardware-specific library #include <SPI.h>
 #include <modfw_component.h>
+#include "display_region.h"
+#include <list>
 
 #define ORIENT_UP_DOWN 0
 #define ORIENT_RIGHT_LEFT 1
@@ -25,9 +27,14 @@ namespace ModFirmWare
         virtual bool setup(Application*);
         virtual void loop();
 
+        size_t registerRegion(DisplayRegion* region);
+        bool unregisterRegion(DisplayRegion* region);
+
     private:
         uint8_t options;
         uint8_t orientation;
+
+        std::list<DisplayRegion*> regions;
     };
 
 };
