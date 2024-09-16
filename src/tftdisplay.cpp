@@ -4,17 +4,32 @@
 
 using namespace ModFirmWare;
 
-TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc) : Adafruit_ST7735(cs, dc, rsc),
-                                                                       options(INITR_BLACKTAB),
-                                                                       orientation(ORIENT_LEFT_RIGHT),regions() {}
-TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc, uint8_t options) : Adafruit_ST7735(cs, dc, rsc),
-                                                                                        options(options),
-                                                                                        orientation(ORIENT_RIGHT_LEFT), regions() {}
-TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc, uint8_t options, uint8_t orientation) : Adafruit_ST7735(cs, dc, rsc),
-                                                                                        options(options),
-                                                                                        orientation(orientation), regions() {}
+#ifndef BLINK_FREQUENCY 
+#define BLINK_FREQUENCY 1000
+#endif
 
-bool TFTDisplay::setup(Application* app)
+#define LOGTAG "tft"
+
+TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc)
+    : Adafruit_ST7735(cs, dc, rsc),
+      options(INITR_BLACKTAB),
+      orientation(ORIENT_LEFT_RIGHT), regions(),
+      blinkstate(false),
+      blinkfrequency(BLINK_FREQUENCY) {}
+TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc, uint8_t options)
+    : Adafruit_ST7735(cs, dc, rsc),
+      options(options),
+      orientation(ORIENT_RIGHT_LEFT), regions(),
+      blinkstate(false),
+      blinkfrequency(BLINK_FREQUENCY) {}
+TFTDisplay::TFTDisplay(int8_t cs, int8_t dc, int8_t rsc, uint8_t options, uint8_t orientation)
+    : Adafruit_ST7735(cs, dc, rsc),
+      options(options),
+      orientation(orientation), regions(),
+      blinkstate(false),
+      blinkfrequency(BLINK_FREQUENCY) {}
+
+bool TFTDisplay::setup(Application *app)
 //*****************************************************************************
 {
     if (Component::setup(app))
@@ -35,18 +50,27 @@ bool TFTDisplay::setup(Application* app)
 void TFTDisplay::loop()
 //*****************************************************************************
 {
-    for(std::list<DisplayRegion*>::iterator it = regions.begin();it != regions.end();++it)
+    static time_t lastBlink = 0;
+    bool blinkChange = false;
+
+    if (BLINK_FREQUENCY <= (millis() - lastBlink))
     {
-        DisplayRegion* dr = *it;
-        if (dr->hasNewContent())
-        {
-            dr->update();
-        }
+        blinkstate = !blinkstate;
+        lastBlink = millis();
+        blinkChange = true;
     }
 
+    for (std::list<DisplayRegion *>::iterator it = regions.begin(); it != regions.end(); ++it)
+    {
+        DisplayRegion *dr = *it;
+        if ((dr->hasNewContent()) || ((dr->isBlinking()) && (blinkChange)))
+        {
+            dr->update(blinkstate);
+        }
+    }
 }
 
-size_t TFTDisplay::registerRegion(DisplayRegion* region)
+size_t TFTDisplay::registerRegion(DisplayRegion *region)
 //*****************************************************************************
 {
     if (region)
@@ -61,24 +85,23 @@ size_t TFTDisplay::registerRegion(DisplayRegion* region)
 bool TFTDisplay::unregisterRegion(DisplayRegion *region)
 //*****************************************************************************
 {
-  std::list<DisplayRegion*>::iterator it = regions.begin();
+    std::list<DisplayRegion *>::iterator it = regions.begin();
 
-  while(regions.end() != it)
-  {
-    if (*it == region)
+    while (regions.end() != it)
     {
-        it = regions.erase(it);
-        return true;
+        if (*it == region)
+        {
+            it = regions.erase(it);
+            return true;
+        }
+        else
+        {
+            ++it;
+        }
     }
-    else
-    {
-        ++it;
-    }
-  }
 
-  return false;
+    return false;
 }
-
 
 size_t TFTDisplay::printlnStr(const char str[])
 //*****************************************************************************

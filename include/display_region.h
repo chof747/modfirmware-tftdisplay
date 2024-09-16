@@ -17,10 +17,10 @@ namespace ModFirmWare
       int height;
     };
 
-    DisplayRegion(const window_t window, TFTDisplay*  display) : window(window), tft(display), active(true) {}
+    DisplayRegion(const window_t window, TFTDisplay*  display) : window(window), tft(display), active(true), blinking(false) {}
 
     virtual ~DisplayRegion() = default;
-    virtual void update() = 0;
+    virtual void update(bool blink) = 0;
     virtual bool hasNewContent();
 
     // Getter and Setter for the Region struct
@@ -29,6 +29,7 @@ namespace ModFirmWare
 
     inline void activate() { active = true; }
     inline void deactivate() { active = false; }
+    inline bool isBlinking() { return blinking; }
 
   protected: 
 
@@ -43,6 +44,7 @@ namespace ModFirmWare
     TFTDisplay* display() { return tft; }
 
     bool active;
+    bool blinking;
 
   private:
     window_t window;

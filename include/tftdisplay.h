@@ -29,10 +29,13 @@ namespace ModFirmWare
 
         size_t registerRegion(DisplayRegion* region);
         bool unregisterRegion(DisplayRegion* region);
+        bool setBlinkFrequency(time_t blinkrate);
 
     private:
         uint8_t options;
         uint8_t orientation;
+        bool blinkstate;
+        time_t blinkfrequency;
 
         std::list<DisplayRegion*> regions;
     };
