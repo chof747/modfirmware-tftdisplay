@@ -1,8 +1,13 @@
 #ifndef DISPLAY_REGION_H
 #define DISPLAY_REGION_H
 
+#include <memory>
+#include <Arduino.h>
+
 namespace ModFirmWare
 {
+
+  typedef std::unique_ptr<uint16_t[]> imgbuffer_t;
 
   class TFTDisplay;
 
@@ -17,7 +22,7 @@ namespace ModFirmWare
       int height;
     };
 
-    DisplayRegion(const window_t window, TFTDisplay*  display) : window(window), tft(display), active(true), blinking(false) {}
+    DisplayRegion(const window_t window, TFTDisplay*  display) : window(window), tft(display), blinking(false) {}
 
     virtual ~DisplayRegion() = default;
     virtual void update(bool blink) = 0;
@@ -27,8 +32,6 @@ namespace ModFirmWare
     inline void setWindow(const window_t &window) { this->window = window; }
     inline const window_t getWindow() const { return window; }
 
-    inline void activate() { active = true; }
-    inline void deactivate() { active = false; }
     inline bool isBlinking() { return blinking; }
 
   protected: 
@@ -36,6 +39,8 @@ namespace ModFirmWare
     const int translateX(const int x) const;
     const int translateY(const int x) const;
 
+    void drawImage(imgbuffer_t& buffer, int width, int height);
+    
     inline const int width() const { return window.width; }
     inline const int height() const { return window.height; }
 
@@ -43,7 +48,6 @@ namespace ModFirmWare
 
     TFTDisplay* display() { return tft; }
 
-    bool active;
     bool blinking;
 
   private:
