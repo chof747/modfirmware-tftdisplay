@@ -21,7 +21,7 @@ height = int(match.group(2))
 
 # Use ImageMagick to convert PNG to raw RGB format
 rgb_temp_file = "temp.rgb"
-convert_command = f"convert {input_file} -depth 8 -resize {width}x{height}! rgb:{rgb_temp_file}"
+convert_command = f"magick {input_file} -depth 8 -resize {width}x{height}! rgb:{rgb_temp_file}"
 result = os.system(convert_command)
 if result != 0:
     print("Error: ImageMagick convert command failed.")
