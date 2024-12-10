@@ -1,9 +1,9 @@
-{
-    "name" : "TFTDisplay",
-    "version" : "0.0.1",
-    "description" : "A component utilizing the AdafruitTFT Display",
-    "dependencies" : {
-        "Adafruit-ST7735" : "https://github.com/adafruit/Adafruit-ST7735-Library.git",
-        "ModFirmwareBase" : "https://github.com/chof747/modfirmware-base.git"
+    {
+        "name" : "TFTDisplay",
+        "version" : "0.0.1",
+        "description" : "A component utilizing the AdafruitTFT Display",
+        "dependencies" : {
+            "Adafruit-ST7735" : "https://github.com/adafruit/Adafruit-ST7735-Library.git",
+            "ModFirmwareBase" : "https://github.com/chof747/modfirmware-base.git"
+        }
     }
-}

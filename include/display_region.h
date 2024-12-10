@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <Arduino.h>
+#include <Adafruit_GFX.h>
 
 namespace ModFirmWare
 {
@@ -22,10 +23,11 @@ namespace ModFirmWare
       int height;
     };
 
-    DisplayRegion(const window_t window, TFTDisplay*  display) : window(window), tft(display), blinking(false) {}
+    DisplayRegion(const window_t window, TFTDisplay*  display) : 
+      window(window), tft(display), blinking(false), canvas(window.width, window.height) {}
 
     virtual ~DisplayRegion() = default;
-    virtual void update(bool blink) = 0;
+    void update(bool blink);
     virtual bool hasNewContent();
 
     // Getter and Setter for the Region struct
@@ -36,23 +38,23 @@ namespace ModFirmWare
 
   protected: 
 
-    const int translateX(const int x) const;
-    const int translateY(const int x) const;
+    virtual void updateCanvas() = 0;
+    virtual void doBlinking(bool blinkstate) { }
 
-    void drawImage(imgbuffer_t& buffer, int width, int height);
-    
     inline const int width() const { return window.width; }
     inline const int height() const { return window.height; }
 
     virtual bool isUpdated() const = 0;
 
-    TFTDisplay* display() { return tft; }
+    Adafruit_GFX* display() { return &canvas; }
+
 
     bool blinking;
 
   private:
     window_t window;
     TFTDisplay* tft;
+    GFXcanvas16 canvas;
   };
 
 }
