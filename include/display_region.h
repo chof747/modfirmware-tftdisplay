@@ -17,10 +17,10 @@ namespace ModFirmWare
   public:
     struct window_t
     {
-      int x;
-      int y;
-      int width;
-      int height;
+      int16_t x;
+      int16_t y;
+      uint16_t width;
+      uint16_t height;
     };
 
     DisplayRegion(const window_t window, TFTDisplay*  display) : 
@@ -43,6 +43,9 @@ namespace ModFirmWare
 
     inline const int width() const { return window.width; }
     inline const int height() const { return window.height; }
+    const unsigned int getTextHeight(const char* text);
+    const unsigned int getTextWidth(const char* text);
+    const window_t getTextBoundaries(const char* text);
 
     virtual bool isUpdated() const = 0;
 

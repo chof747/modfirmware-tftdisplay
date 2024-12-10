@@ -162,8 +162,8 @@ const DisplayRegion::window_t TFTDisplay::getWindow()
     return DisplayRegion::window_t({
         x : 0,
         y : 0,
-        width : width(),
-        height : height()
+        width : (uint16_t) width(),
+        height : (uint16_t) height()
     });
 }
 
