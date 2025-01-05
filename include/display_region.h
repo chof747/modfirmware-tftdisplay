@@ -4,6 +4,7 @@
 #include <memory>
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
+#include "logengine.h"
 
 namespace ModFirmWare
 {
@@ -24,7 +25,8 @@ namespace ModFirmWare
     };
 
     DisplayRegion(const window_t window, TFTDisplay*  display) : 
-      window(window), tft(display), blinking(false), canvas(window.width, window.height) {}
+      window(window), tft(display), blinking(false), canvas(window.width, window.height), 
+      logger(LogEngine::getInstance()) {}
 
     virtual ~DisplayRegion() = default;
     void update(bool blink);
@@ -50,6 +52,7 @@ namespace ModFirmWare
     virtual bool isUpdated() const = 0;
 
     Adafruit_GFX* display() { return &canvas; }
+    LogEngine* logger;
 
 
     bool blinking;
