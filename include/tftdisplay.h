@@ -32,7 +32,7 @@ namespace ModFirmWare
 
         void enableSleep(bool enable);
 
-        size_t registerRegion(DisplayRegion* region);
+        size_t registerRegion(DisplayRegion* region, bool updateImmideately = false);
         bool unregisterRegion(DisplayRegion* region);
         bool setBlinkFrequency(time_t blinkrate);
 

@@ -94,6 +94,7 @@ void TFTDisplay::loop()
     for (std::list<DisplayRegion *>::iterator it = regions.begin(); it != regions.end(); ++it)
     {
         DisplayRegion *dr = *it;
+        //if (blinkChange) logger->debug(LOGTAG, "Processing region: %x - %s", dr, dr->getCaption());
         if ((dr->hasNewContent()) || ((dr->isBlinking()) && (blinkChange)))
         {
             dr->update(blinkstate);
@@ -115,12 +116,16 @@ void TFTDisplay::enableSleep(bool enable)
     }
 }
 
-size_t TFTDisplay::registerRegion(DisplayRegion *region)
+size_t TFTDisplay::registerRegion(DisplayRegion *region, bool updateImmideately)
 //*****************************************************************************
 {
     if (region)
     {
         regions.push_back(region);
+        if(updateImmideately)
+        {
+           region->update(blinkstate);
+        }
         return regions.size();
     }
 
