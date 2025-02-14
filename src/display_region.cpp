@@ -4,6 +4,8 @@
 
 using namespace ModFirmWare;
 
+#define LOGTAG "display_reg"
+
 void DisplayRegion::update(bool blink)
 //****************************************************************************************
 {
@@ -13,6 +15,7 @@ void DisplayRegion::update(bool blink)
   }
 
   doBlinking(blink);
+  //logger->debug(LOGTAG, "x = %d, y = %d, w = %d, h = %d", window.x, window.y, canvas.width(), canvas.height());
   tft->drawRGBBitmap(window.x,window.y, canvas.getBuffer(), canvas.width(), canvas.height());
 }
 

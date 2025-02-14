@@ -24,9 +24,9 @@ namespace ModFirmWare
       uint16_t height;
     };
 
-    DisplayRegion(const window_t window, TFTDisplay*  display) : 
+    DisplayRegion(const window_t window, TFTDisplay*  display, const char* caption = "") : 
       window(window), tft(display), blinking(false), canvas(window.width, window.height), 
-      logger(LogEngine::getInstance()) {}
+      logger(LogEngine::getInstance()), caption(caption) {}
 
     virtual ~DisplayRegion() = default;
     void update(bool blink);
@@ -38,6 +38,11 @@ namespace ModFirmWare
 
     inline bool isBlinking() { return blinking; }
 
+    inline const char* getCaption() { return caption; }
+    Adafruit_GFX* display() { return &canvas; }
+    const unsigned int getTextHeight(const char* text);
+    const unsigned int getTextWidth(const char* text);
+
   protected: 
 
     virtual void updateCanvas() = 0;
@@ -45,15 +50,12 @@ namespace ModFirmWare
 
     inline const int width() const { return window.width; }
     inline const int height() const { return window.height; }
-    const unsigned int getTextHeight(const char* text);
-    const unsigned int getTextWidth(const char* text);
+
     const window_t getTextBoundaries(const char* text);
 
     virtual bool isUpdated() const = 0;
 
-    Adafruit_GFX* display() { return &canvas; }
     LogEngine* logger;
-
 
     bool blinking;
 
@@ -61,6 +63,7 @@ namespace ModFirmWare
     window_t window;
     TFTDisplay* tft;
     GFXcanvas16 canvas;
+    const char* caption;
   };
 
 }
